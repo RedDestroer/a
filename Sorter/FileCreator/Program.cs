@@ -44,14 +44,14 @@ namespace FileCreator
                     int targetFileSize;
                     if (!int.TryParse(args[1], out targetFileSize))
                     {
-                        throw new ArgumentException("Can't parse target file size.");
+                        throw new ArgsException("Can't parse target file size.");
                     }
                     targetFileSize = Math.Abs(targetFileSize);
 
                     ushort maxNumberOfDupes;
                     if (!ushort.TryParse(args[2], out maxNumberOfDupes))
                     {
-                        throw new ArgumentException("Can't parse max number of dupes [0..65535].");
+                        throw new ArgsException("Can't parse max number of dupes [0..65535].");
                     }
 
                     // Замерим реальное время создания файла
