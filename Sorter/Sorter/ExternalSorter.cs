@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Sorter
 {
+    // https://blogs.msdn.microsoft.com/dhuba/2010/08/24/external-merge-sort/
     public abstract class ExternalSorter<T>
     {
         private readonly IComparer<T> m_comparer;
