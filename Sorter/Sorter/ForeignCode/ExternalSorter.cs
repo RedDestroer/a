@@ -1,20 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Sorter
+namespace Sorter.ForeignCode
 {
-    // https://blogs.msdn.microsoft.com/dhuba/2010/08/24/external-merge-sort/
+    /// <summary>
+    /// Класс обощённого внешнего сортировщика слиянием
+    /// 
+    /// Чуть-чуть модифицировал чтобы можно было заменять его реализацию PriorityQuieue на произвольную реализацию
+    /// 
+    /// Код взят из этого блога
+    /// https://blogs.msdn.microsoft.com/dhuba/2010/08/24/external-merge-sort/
+    /// синтаксис автора менять не стал
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class ExternalSorter<T>
     {
         private readonly IComparer<T> m_comparer;
-        private readonly int m_capacity;
         private readonly int m_mergeCount;
+        private readonly Func<IComparer<T>, IQueue<T>> _queueFactoryFunc;
 
-        protected ExternalSorter(IComparer<T> comparer, int capacity, int mergeCount)
+        protected ExternalSorter(IComparer<T> comparer, int mergeCount, Func<IComparer<T>, IQueue<T>> queueFactoryFunc)
         {
+            if (comparer == null) throw new ArgumentNullException("comparer");
+            if (queueFactoryFunc == null) throw new ArgumentNullException("queueFactoryFunc");
+
             m_comparer = comparer;
-            m_capacity = capacity;
             m_mergeCount = mergeCount;
+            _queueFactoryFunc = queueFactoryFunc;
         }
 
         // Sorts unsorted file and returns sorted file name
@@ -27,7 +40,7 @@ namespace Sorter
         // Write run to disk and return created file name
         protected abstract string Write(IEnumerable<T> run);
         // Read run from file with given name
-        protected abstract IEnumerable<T> Read(string name);
+        protected abstract IEnumerable<T> Read(string fileName);
 
         // Merge step in this implementation is simpler than 
         // the one used in polyphase merge sort - it doesn't
@@ -65,11 +78,15 @@ namespace Sorter
             var source = Read(inputFullFileName);
             using (var enumerator = source.GetEnumerator())
             {
-                var curr = new PriorityQueue<T>(m_comparer);
-                var next = new PriorityQueue<T>(m_comparer);
+                ////var curr = new PriorityQueue<T>(m_comparer);
+                ////var next = new PriorityQueue<T>(m_comparer);
+
+                var curr = _queueFactoryFunc(m_comparer);
+                var next = _queueFactoryFunc(m_comparer);
+
                 // Prefill priority queue to capacity which is used 
                 // to create runs
-                while (curr.Count < m_capacity && enumerator.MoveNext())
+                while (curr.Count < curr.Capacity && enumerator.MoveNext())
                     curr.Enqueue(enumerator.Current);
                 // Until unsorted source and priority queues are 
                 // exhausted
@@ -86,7 +103,7 @@ namespace Sorter
             }
         }
 
-        private IEnumerable<T> CreateRun(IEnumerator<T> enumerator, PriorityQueue<T> curr, PriorityQueue<T> next)
+        private IEnumerable<T> CreateRun(IEnumerator<T> enumerator, IQueue<T> curr, IQueue<T> next)
         {
             while (curr.Count > 0)
             {

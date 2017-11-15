@@ -2,9 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sorter
+namespace Sorter.ForeignCode
 {
+    /// <summary>
+    /// Очередь, которая автоматически сортируется по возрастанию при вставке в неё элемента.
+    /// Эти очереди используются для непосредственной сортировки данных в памяти при подготовке
+    /// сортированных серий для выгрузки в файлы
+    /// 
+    /// Код взят из этого блога
+    /// https://blogs.msdn.microsoft.com/dhuba/2010/08/24/external-merge-sort/
+    /// синтаксис автора менять не стал
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PriorityQueue<T>
+        : IQueue<T>
     {
         private const int c_initialCapacity = 4;
         private readonly IComparer<T> m_comparer;

@@ -43,13 +43,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgsException.cs" />
-    <Compile Include="DisposableExtension.cs" />
-    <Compile Include="DisposableSequence.cs" />
-    <Compile Include="ExternalSorter.cs" />
-    <Compile Include="FnvHash.cs" />
-    <Compile Include="IDisposableSequence.cs" />
-    <Compile Include="EnumerableExtension.cs" />
-    <Compile Include="PriorityQueue.cs" />
+    <Compile Include="FibonacciPriorityQueue.cs" />
+    <Compile Include="ForeignCode2\FibonacciHeap.cs" />
+    <Compile Include="ForeignCode2\FibonacciHeapDoubleKey.cs" />
+    <Compile Include="ForeignCode2\FibonacciHeapNode.cs" />
+    <Compile Include="ForeignCode2\FibonacciHeapNodeDoubleKey.cs" />
+    <Compile Include="ForeignCode\DisposableExtension.cs" />
+    <Compile Include="ForeignCode\DisposableSequence.cs" />
+    <Compile Include="ForeignCode\ExternalSorter.cs" />
+    <Compile Include="ForeignCode\IDisposableSequence.cs" />
+    <Compile Include="ForeignCode\EnumerableExtension.cs" />
+    <Compile Include="ForeignCode\PriorityQueue.cs" />
+    <Compile Include="IQueue.cs" />
+    <Compile Include="OrdinalRecord.cs" />
+    <Compile Include="OrdinalRecordComparer.cs" />
+    <Compile Include="OrdinalRecordExternalSorter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Record.cs" />

@@ -41,12 +41,11 @@ namespace FileCreator
                         fullFileName = Path.Combine(currentDir, fileName);
                     }
 
-                    int targetFileSize;
-                    if (!int.TryParse(args[1], out targetFileSize))
+                    ulong targetFileSize;
+                    if (!ulong.TryParse(args[1], out targetFileSize))
                     {
                         throw new ArgsException("Can't parse target file size.");
                     }
-                    targetFileSize = Math.Abs(targetFileSize);
 
                     ushort maxNumberOfDupes;
                     if (!ushort.TryParse(args[2], out maxNumberOfDupes))
@@ -89,7 +88,7 @@ namespace FileCreator
             Console.WriteLine("FileCreator.exe file_name target_file_size max_number_of_dupes");
         }
 
-        private static void CreateFile(string fullFileName, int targetFileSize, ushort maxNumberOfDupes)
+        private static void CreateFile(string fullFileName, ulong targetFileSize, ushort maxNumberOfDupes)
         {
             using (var fileProducer = new FileProducer())
             {

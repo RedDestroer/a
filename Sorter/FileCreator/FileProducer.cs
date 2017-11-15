@@ -25,8 +25,8 @@ namespace FileCreator
         // С таймером заморочился только чтобы было веселее смотреть как файл создаётся
         private Timer _timer;
         private byte _spinPosition;
-        private int _currentFileSize;
-        private int _targetFileSize;
+        private ulong _currentFileSize;
+        private ulong _targetFileSize;
 
         public FileProducer()
         {
@@ -47,7 +47,7 @@ namespace FileCreator
         /// <param name="fullFileName">Полное имя файла</param>
         /// <param name="targetFileSize">Приблизительный максимальный размер файла</param>
         /// <param name="maxNumberOfDupes">Максимальное количество дублей строк</param>
-        public void WriteFile(string fullFileName, int targetFileSize, int maxNumberOfDupes)
+        public void WriteFile(string fullFileName, ulong targetFileSize, int maxNumberOfDupes)
         {
             if (fullFileName == null) throw new ArgumentNullException("fullFileName");
             if (maxNumberOfDupes < 0 || 65535 < maxNumberOfDupes) throw new ArgumentOutOfRangeException("maxNumberOfDupes", maxNumberOfDupes, "Max number of dupes must be at range [0..65535].");
@@ -91,7 +91,7 @@ namespace FileCreator
                         writer.Write(nextLine);
 
                         // Ведём подсчёт получаещегося размера файла и если он становится выше целевого, то завершаем файл
-                        _currentFileSize += nextLine.Length;
+                        _currentFileSize = _currentFileSize + (ulong)nextLine.Length;
                         if (_currentFileSize > targetFileSize)
                             break;
 

@@ -7,13 +7,15 @@ namespace Sorter
     {
         public int Compare(Record x, Record y)
         {
-            if (x < y)
-                return -1;
+            return x.CompareTo(y);
 
-            if (x > y)
-                return 1;
+            ////if (x < y)
+            ////    return -1;
 
-            return 0;
+            ////if (x > y)
+            ////    return 1;
+
+            ////return 0;
         }
     }
 }

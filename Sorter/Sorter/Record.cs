@@ -3,81 +3,69 @@
 namespace Sorter
 {
     public class Record
+        : IComparable, IComparable<Record>
     {
+        public static readonly Record Min = new Record(0, string.Empty);
+
         private readonly int _number;
         private readonly string _str;
-        private readonly Lazy<int> _hash;
 
         public Record(int number, string str)
         {
             _number = number;
             _str = str;
-            _hash = new Lazy<int>(() => FnvHash.CreateHash(_number, _str));
         }
-
-        public int Number
+        
+        public string GetText()
         {
-            get { return _number; }
+            return _number + ". " + _str;
         }
 
-        public string Str
-        {
-            get { return _str; }
-        }
-
-        public override bool Equals(object obj)
+        public int CompareTo(object obj)
         {
             var other = obj as Record;
             if (other == null)
-                return false;
+                return 1;
 
-            if (_number != other.Number)
-                return false;
-
-            return string.Equals(_str, other._str, StringComparison.InvariantCulture);
+            return CompareTo(other);
         }
 
-        public override int GetHashCode()
+        public int CompareTo(Record other)
         {
-            return _hash.Value;
-        }
+            if (ReferenceEquals(this, other))
+                return 0;
+            if (ReferenceEquals(null, other))
+                return 1;
 
-        public static bool operator <(Record left, Record right)
-        {
-            int res = string.Compare(left._str, right._str, StringComparison.InvariantCulture);
+            int res = string.Compare(_str, other._str, StringComparison.InvariantCulture);
             if (res == 0)
             {
-                return left.Number < right.Number;
+                return _number.CompareTo(other._number);
             }
 
-            return res == -1;
+            return res;
         }
 
-        public static bool operator >(Record left, Record right)
-        {
-            int res = string.Compare(left._str, right._str, StringComparison.InvariantCulture);
-            if (res == 0)
-            {
-                return left.Number > right.Number;
-            }
+        ////public static bool operator <(Record left, Record right)
+        ////{
+        ////    int res = string.Compare(left._str, right._str, StringComparison.InvariantCulture);
+        ////    if (res == 0)
+        ////    {
+        ////        return left.Number < right.Number;
+        ////    }
 
-            return res == 1;
-        }
+        ////    return res == -1;
+        ////}
 
-        public static bool operator ==(Record left, Record right)
-        {
-            if (ReferenceEquals(left, right))
-                return true;
+        ////public static bool operator >(Record left, Record right)
+        ////{
+        ////    int res = string.Compare(left._str, right._str, StringComparison.InvariantCulture);
+        ////    if (res == 0)
+        ////    {
+        ////        return left.Number > right.Number;
+        ////    }
 
-            if (((object)left == null) || ((object)right == null))
-                return false;
-
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(Record left, Record right)
-        {
-            return !(left == right);
-        }
+        ////    return res == 1;
+        ////}
     }
 }

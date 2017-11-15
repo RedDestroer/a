@@ -1,8 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Sorter
+namespace Sorter.ForeignCode
 {
+    /// <summary>
+    /// Несколько методов расширения к IEnumerable
+    /// 
+    /// Код взят из этого блога
+    /// https://blogs.msdn.microsoft.com/dhuba/2010/08/24/external-merge-sort/
+    /// синтаксис автора менять не стал
+    /// </summary>
     public static class EnumerableExtension
     {
         public static IEnumerable<T> OrderedMerge<T>(this IEnumerable<T> first, IEnumerable<T> second, IComparer<T> comparer)
