@@ -93,21 +93,21 @@ namespace Sorter
 
         private static string SorterType0(string inputFullFileName, int capacity, int mergeCount, string tempDir)
         {
-            var sorter = new RecordExternalSorter(mergeCount, tempDir, comparer => new PriorityQueue<Record>(comparer, capacity));
+            var sorter = new RecordExternalSorter(capacity, mergeCount, tempDir, comparer => new PriorityQueue<Record>(comparer, capacity));
 
             return sorter.Sort(inputFullFileName);
         }
 
         private static string SorterType1(string inputFullFileName, int capacity, int mergeCount, string tempDir)
         {
-            var sorter = new OrdinalRecordExternalSorter(mergeCount, tempDir, comparer => new PriorityQueue<OrdinalRecord>(comparer, capacity));
+            var sorter = new OrdinalRecordExternalSorter(capacity, mergeCount, tempDir, comparer => new PriorityQueue<OrdinalRecord>(comparer, capacity));
 
             return sorter.Sort(inputFullFileName);
         }
 
         private static string SorterType2(string inputFullFileName, int capacity, int mergeCount, string tempDir)
         {
-            var sorter = new RecordExternalSorter(mergeCount, tempDir, comparer => new FibonacciPriorityQueue<Record>(capacity, Record.Min));
+            var sorter = new RecordExternalSorter(capacity, mergeCount, tempDir, comparer => new FibonacciPriorityQueue<Record>(capacity, Record.Min));
 
             return sorter.Sort(inputFullFileName);
         }

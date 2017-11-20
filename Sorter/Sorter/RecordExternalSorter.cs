@@ -10,8 +10,8 @@ namespace Sorter
     {
         private readonly string _tempDir;
 
-        public RecordExternalSorter(int mergeCount, string tempDir, Func<IComparer<Record>, IQueue<Record>> queueFactoryFunc)
-            : base(new RecordComparer(), mergeCount, queueFactoryFunc)
+        public RecordExternalSorter(int capacity, int mergeCount, string tempDir, Func<IComparer<Record>, IQueue<Record>> queueFactoryFunc)
+            : base(new RecordComparer(), capacity, mergeCount, queueFactoryFunc)
         {
             if (tempDir == null) throw new ArgumentNullException("tempDir");
 

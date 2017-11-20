@@ -10,8 +10,8 @@ namespace Sorter
     {
         private readonly string _tempDir;
 
-        public OrdinalRecordExternalSorter(int mergeCount, string tempDir, Func<IComparer<OrdinalRecord>, IQueue<OrdinalRecord>> queueFactoryFunc)
-            : base(new OrdinalRecordComparer(), mergeCount, queueFactoryFunc)
+        public OrdinalRecordExternalSorter(int capacity, int mergeCount, string tempDir, Func<IComparer<OrdinalRecord>, IQueue<OrdinalRecord>> queueFactoryFunc)
+            : base(new OrdinalRecordComparer(), capacity, mergeCount, queueFactoryFunc)
         {
             if (tempDir == null) throw new ArgumentNullException("tempDir");
 

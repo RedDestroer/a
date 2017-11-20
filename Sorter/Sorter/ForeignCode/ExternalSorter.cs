@@ -18,14 +18,16 @@ namespace Sorter.ForeignCode
     {
         private readonly IComparer<T> m_comparer;
         private readonly int m_mergeCount;
+        private readonly int m_capacity;
         private readonly Func<IComparer<T>, IQueue<T>> _queueFactoryFunc;
 
-        protected ExternalSorter(IComparer<T> comparer, int mergeCount, Func<IComparer<T>, IQueue<T>> queueFactoryFunc)
+        protected ExternalSorter(IComparer<T> comparer, int capacity, int mergeCount, Func<IComparer<T>, IQueue<T>> queueFactoryFunc)
         {
             if (comparer == null) throw new ArgumentNullException("comparer");
             if (queueFactoryFunc == null) throw new ArgumentNullException("queueFactoryFunc");
 
             m_comparer = comparer;
+            m_capacity = capacity;
             m_mergeCount = mergeCount;
             _queueFactoryFunc = queueFactoryFunc;
         }
@@ -86,7 +88,7 @@ namespace Sorter.ForeignCode
 
                 // Prefill priority queue to capacity which is used 
                 // to create runs
-                while (curr.Count < curr.Capacity && enumerator.MoveNext())
+                while (curr.Count < m_capacity && enumerator.MoveNext())
                     curr.Enqueue(enumerator.Current);
                 // Until unsorted source and priority queues are 
                 // exhausted
